@@ -17,6 +17,7 @@ public class BeeController : MonoBehaviour
     public float followSpeed = 10f;  // Speed at which the bee follows the mouse
     public int points = 10;  // Points to add when the bee pops a balloon
     private GameManager gameManager;  // Reference to the GameManager for points
+    private BalloonSpawner balloonSpawner;  // Reference to the BalloonSpawner for stopping balloon spawns
 
     private Rigidbody2D rb;  // Rigidbody for movement handling
     private bool isDead = false;  // Flag to track if the bee is dead
@@ -38,6 +39,11 @@ public class BeeController : MonoBehaviour
         if (gameManager == null)
         {
             Debug.LogError("GameManager not found in the scene. Please ensure there is one.");
+        }
+        balloonSpawner = FindObjectOfType<BalloonSpawner>();
+        if (balloonSpawner == null)
+        {
+            Debug.LogError("BalloonSpawner not found in the scene. Please ensure there is one.");
         }
     }
 
@@ -77,6 +83,7 @@ public class BeeController : MonoBehaviour
             if (gameManager != null)
             {
                 gameManager.AddPoints(points);  // Add points to the game
+                balloonSpawner.StopBalloonSpawning();
             }
 
             // Destroy the balloon

@@ -14,32 +14,39 @@ public class BalloonSpawner : MonoBehaviour
     public PolygonCollider2D spawnAreaCollider;  // Collider defining the spawn area
     public PolygonCollider2D redZoneCollider;  // Collider defining the red zone
 
+    [Header("Balloon Spawn Limits")]
+    public int maxBalloonCount = 10;  // Maximum number of balloons to spawn, set to 0 for unlimited
+    public bool AllowSpawning = true;
+
+    private int currentBalloonCount = 0;  // Current number of balloons spawned
+
     private void Start()
     {
         StartCoroutine(SpawnBalloons());
-    }
+        AllowSpawning = true;
+}
 
     private IEnumerator SpawnBalloons()
     {
-        while (true)
+        while (maxBalloonCount == 0 || currentBalloonCount < maxBalloonCount && AllowSpawning == true)  // Check if the balloon count is within the limit
         {
-            SpawnBalloon();
-            yield return new WaitForSeconds(spawnInterval);
+            Vector2 randomPosition = GenerateValidPosition();
+
+            // If a valid position is found, spawn a balloon
+            if (randomPosition != Vector2.zero) // Ensure the position is valid
+            {
+                SpawnBalloon(randomPosition);
+                currentBalloonCount++;  // Increment the spawned balloon count
+            }
+
+            yield return new WaitForSeconds(spawnInterval);  // Wait before spawning the next balloon
         }
     }
 
-    private void SpawnBalloon()
+    private void SpawnBalloon(Vector2 position)
     {
-        Vector2 randomPosition = GenerateValidPosition();
-
-        // Ensure the random position is not overlapping with other balloons
-        if (IsPositionOccupied(randomPosition))
-        {
-            return;  // If position is occupied, don't spawn the balloon
-        }
-
         // Instantiate a new balloon
-        GameObject newBalloon = Instantiate(balloonPrefab, randomPosition, Quaternion.identity);
+        GameObject newBalloon = Instantiate(balloonPrefab, position, Quaternion.identity);
 
         // Set random size
         float randomSize = Random.Range(sizeRange.x, sizeRange.y);
@@ -65,7 +72,7 @@ public class BalloonSpawner : MonoBehaviour
     private Vector2 GenerateValidPosition()
     {
         Vector2 position;
-        int maxRetries = 50;  // Maximum attempts to find a valid position
+        int maxRetries = 20;  // Fewer retries for closer positioning
         int attempts = 0;
 
         do
@@ -83,13 +90,14 @@ public class BalloonSpawner : MonoBehaviour
             if (attempts >= maxRetries)
             {
                 Debug.LogWarning("Max retries reached. Balloons may be spawning far apart.");
-                break;
+                return Vector2.zero;  // Return an invalid position if max retries are reached
             }
         }
-        while (!IsInsideSpawnArea(position) || IsInsideRedZone(position));
+        while (!IsInsideSpawnArea(position) || IsInsideRedZone(position) || IsPositionOccupied(position));
 
         return position;
     }
+
 
     private bool IsInsideSpawnArea(Vector2 position)
     {
@@ -121,5 +129,10 @@ public class BalloonSpawner : MonoBehaviour
         }
 
         return false;  // Position is free
+    }
+
+    public void StopBalloonSpawning()
+    {
+        AllowSpawning = false;
     }
 }
