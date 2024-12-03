@@ -16,27 +16,19 @@ public class GameManager : MonoBehaviour
     public int score = 0;  // Current score
     public Text scoreText;  // UI Text component for displaying the score
 
+    public LevelUIController UIController;
+
 
     void Start()
     {
         currentLives = totalLives;
-        UpdateScoreUI();  // Initialize score UI
     }
 
     // Method to add points
     public void AddPoints(int points)
     {
         score += points;
-        UpdateScoreUI();  // Update the UI after adding points
-    }
-
-    // Update the score display on the screen
-    private void UpdateScoreUI()
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + score;  // Display current score
-        }
+        UIController.UpdateScore(score);
     }
 
     public void LoadNextLevel()
