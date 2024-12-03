@@ -2,19 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-
     [Header("Game Settings")]
     public int totalLives = 3;  // Set initial lives here
     public int currentLives;
-    public int CurrentLevel = 0; //Tuturial level is being counted as level 0
+    public int CurrentLevel = 0; // Tutorial level is counted as level 0
     public int totalLevels = 4;
+
+    [Header("Score Settings")]
+    public int score = 0;  // Current score
+    public Text scoreText;  // UI Text component for displaying the score
+
 
     void Start()
     {
         currentLives = totalLives;
+        UpdateScoreUI();  // Initialize score UI
+    }
+
+    // Method to add points
+    public void AddPoints(int points)
+    {
+        score += points;
+        UpdateScoreUI();  // Update the UI after adding points
+    }
+
+    // Update the score display on the screen
+    private void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;  // Display current score
+        }
     }
 
     public void LoadNextLevel()
@@ -24,7 +46,7 @@ public class GameManager : MonoBehaviour
             CurrentLevel++;
             SceneManager.LoadScene("Level" + CurrentLevel);
         }
-       else
+        else
         {
             SceneManager.LoadScene("EndGame"); // Load the End screen after completing all levels
         }
@@ -32,13 +54,13 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene("level" + CurrentLevel);
+        SceneManager.LoadScene("Level" + CurrentLevel);
     }
 
     public void GameOver()
     {
         Debug.Log("Game Over! You lost all your lives.");
-        SceneManager.LoadScene("EndGame"); // Load the End screen after completing all levels
+        SceneManager.LoadScene("EndGame"); // Load the End screen after losing all lives
     }
 
     public void DecreaseLives()
@@ -63,5 +85,4 @@ public class GameManager : MonoBehaviour
         // Respawn the bee by setting its position to the starting position (or a safe spot away from the red zone)
         bee.transform.position = new Vector3(0, 0, 2); // Example: Reset position to origin or a safe point
     }
-
 }

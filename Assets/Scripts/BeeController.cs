@@ -15,6 +15,8 @@ public class BeeController : MonoBehaviour
     [Header("Game Settings")]
     public int totalLives = 3;  // Total starting lives
     public float followSpeed = 10f;  // Speed at which the bee follows the mouse
+    public int points = 10;  // Points to add when the bee pops a balloon
+    private GameManager gameManager;  // Reference to the GameManager for points
 
     private Rigidbody2D rb;  // Rigidbody for movement handling
     private bool isDead = false;  // Flag to track if the bee is dead
@@ -30,6 +32,13 @@ public class BeeController : MonoBehaviour
         rb.gravityScale = 0;
         initialPosition = transform.position;
         currentLives = totalLives;
+
+        // Get the GameManager reference (ensure a GameManager exists in the scene)
+        gameManager = FindObjectOfType<GameManager>();
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager not found in the scene. Please ensure there is one.");
+        }
     }
 
     void Update()
@@ -61,6 +70,17 @@ public class BeeController : MonoBehaviour
         else if (collision.collider.CompareTag("RedZone"))
         {
             DecreaseLivesAndRespawn();  // Handle collision with the RedZone
+        }
+        else if (collision.collider.CompareTag("Balloon"))
+        {
+            // Add points to the GameManager when the balloon is popped
+            if (gameManager != null)
+            {
+                gameManager.AddPoints(points);  // Add points to the game
+            }
+
+            // Destroy the balloon
+            Destroy(collision.gameObject);
         }
     }
 
