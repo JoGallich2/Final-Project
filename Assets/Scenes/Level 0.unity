@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538f2e3aea28bcc41b563addf1279d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloonPrefab: {fileID: 1122791497474561297, guid: 24ff93235bd2081429515cafe6475c76, type: 3}
+  balloonPrefab: {fileID: 1122791497474561297, guid: a057d2e6a0d8efd4986b057d6b04798b, type: 3}
   balloonColors:
   - {r: 1, g: 0, b: 1, a: 0}
   - {r: 1, g: 1, b: 0, a: 0}

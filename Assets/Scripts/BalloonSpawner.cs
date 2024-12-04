@@ -61,12 +61,22 @@ public class BalloonSpawner : MonoBehaviour
             currentScale.z * randomSize   // Apply random size multiplier to Z axis (if it's a 3D balloon)
         );
 
+        Color randomColor = balloonColors[Random.Range(0, balloonColors.Length)];
+
         // Set random color
         MeshRenderer meshRenderer = newBalloon.GetComponent<MeshRenderer>();
         if (meshRenderer != null)
         {
-            meshRenderer.material.color = balloonColors[Random.Range(0, balloonColors.Length)];
+            meshRenderer.material.color = randomColor;
         }
+
+        //set the color of the stem too
+        MeshRenderer[] stemRenderers = newBalloon.GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer stemRenderer in stemRenderers)
+        {
+            stemRenderer.material.color = randomColor;
+        }
+
     }
 
     private Vector2 GenerateValidPosition()
