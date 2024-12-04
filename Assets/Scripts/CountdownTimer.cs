@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
@@ -25,12 +26,13 @@ public class CountdownTimer : MonoBehaviour
             if (timeRemaining > 0)
             {
                 timeRemaining -= Time.deltaTime;
+                timeRemaining = Mathf.Max(timeRemaining, 0);
                 UpdateTimerDisplay(timeRemaining);
             }
             else
             {
                 timeRemaining = 0;
-                isRunning=false;
+                isRunning = false;
                 TimerEnded();
             }
         }
@@ -47,6 +49,8 @@ public class CountdownTimer : MonoBehaviour
     void TimerEnded()
     {
         Debug.Log("Timer has ended!");
+
         // add logic here for timer ending
+        SceneManager.LoadScene("End");
     }
 }

@@ -21,8 +21,8 @@ public class LevelUIController : MonoBehaviour
         foreach (var bee in beeImages)
         {
             Destroy(bee);
-            beeImages.Clear();
         }
+        beeImages.Clear();
 
         for (int i=0; i < lives; i++)
         {

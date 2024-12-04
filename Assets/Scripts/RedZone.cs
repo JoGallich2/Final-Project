@@ -13,6 +13,7 @@ public class RedZone : MonoBehaviour
         if (other.CompareTag("Bee"))
         {
             Debug.Log("Bee entered the Red Zone! Losing 1 life.");
+            gameManager.DecreaseLives();
 
             // Call the BeeController's method to handle bee death and respawn
             BeeController beeController = other.GetComponent<BeeController>();

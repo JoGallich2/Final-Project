@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentLives = totalLives;
+        UIController.SetLives(currentLives);
+        UIController.SetLevel(CurrentLevel);
     }
 
     // Method to add points
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("EndGame"); // Load the End screen after completing all levels
+            SceneManager.LoadScene("End"); // Load the End screen after completing all levels
         }
     }
 
@@ -52,12 +54,14 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over! You lost all your lives.");
-        SceneManager.LoadScene("EndGame"); // Load the End screen after losing all lives
+        SceneManager.LoadScene("End"); // Load the End screen after losing all lives
     }
 
     public void DecreaseLives()
     {
         currentLives--;
+        UIController.SetLives(currentLives);
+
         if (currentLives <= 0)
         {
             GameOver();
