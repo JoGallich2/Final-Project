@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
 
 public class LevelUIController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class LevelUIController : MonoBehaviour
     public TMP_Text levelText;
     public GameObject beeImagePreFab;
     public Transform beeContainer;
+    public GameObject pauseMenu;
 
     private List<GameObject> beeImages = new List<GameObject>();
     private int score;
@@ -49,11 +51,28 @@ public class LevelUIController : MonoBehaviour
         {
             Time.timeScale = 0;
             isPaused = true;
+            pauseMenu.SetActive(true);
         }
         else
         {
             Time.timeScale = 1;
             isPaused = false;
+            pauseMenu.SetActive(false);
+        }
+    }
+
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Start");
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
         }
     }
 

@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Score Settings")]
     public int score = 0;  // Current score
-    public Text scoreText;  // UI Text component for displaying the score
 
     public LevelUIController UIController;
 
