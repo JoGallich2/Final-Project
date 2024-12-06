@@ -327,7 +327,6 @@ MonoBehaviour:
   CurrentLevel: 0
   totalLevels: 4
   score: 0
-  scoreText: {fileID: 0}
   UIController: {fileID: 1958520377}
 --- !u!114 &963194230
 MonoBehaviour:
