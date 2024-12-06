@@ -18,13 +18,14 @@ public class BalloonSpawner : MonoBehaviour
     public int maxBalloonCount = 10;  // Maximum number of balloons to spawn, set to 0 for unlimited
     public bool AllowSpawning = true;
 
-    private int currentBalloonCount = 0;  // Current number of balloons spawned
+    private int currentBalloonCount = 1;  // Current number of balloons spawned
+    public GameManager gameManager;
 
     private void Start()
     {
         StartCoroutine(SpawnBalloons());
         AllowSpawning = true;
-}
+    }
 
     private IEnumerator SpawnBalloons()
     {
@@ -82,7 +83,7 @@ public class BalloonSpawner : MonoBehaviour
     private Vector2 GenerateValidPosition()
     {
         Vector2 position;
-        int maxRetries = 20;  // Fewer retries for closer positioning
+        int maxRetries = 10;  // Fewer retries for closer positioning
         int attempts = 0;
 
         do
@@ -99,7 +100,7 @@ public class BalloonSpawner : MonoBehaviour
             // If max retries are reached, break out of the loop to avoid infinite looping
             if (attempts >= maxRetries)
             {
-                Debug.LogWarning("Max retries reached. Balloons may be spawning far apart.");
+                //Debug.LogWarning("Max retries reached. Balloons may be spawning far apart.");
                 return Vector2.zero;  // Return an invalid position if max retries are reached
             }
         }

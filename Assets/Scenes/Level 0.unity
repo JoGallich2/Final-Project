@@ -349,8 +349,9 @@ MonoBehaviour:
   spawnInterval: 0.001
   spawnAreaCollider: {fileID: 5238766203883791960}
   redZoneCollider: {fileID: 1429395369}
-  maxBalloonCount: 100
+  maxBalloonCount: 50
   AllowSpawning: 1
+  gameManager: {fileID: 963194229}
 --- !u!1001 &1161488094
 PrefabInstance:
   m_ObjectHideFlags: 0

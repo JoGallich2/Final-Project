@@ -15,7 +15,7 @@ public class LevelUIController : MonoBehaviour
 
     private List<GameObject> beeImages = new List<GameObject>();
     private int score;
-    private int currentLevel;
+    private string currentLevel;
     private bool isPaused = false;
 
     public void SetLives(int lives)
@@ -39,10 +39,9 @@ public class LevelUIController : MonoBehaviour
         scoreText.text = $"Score: {score}";
     }
 
-    public void SetLevel(int level)
+    public void SetLevel(string level)
     {
-        currentLevel = level;
-        levelText.text = $"Level {currentLevel}";
+        levelText.text = level;
     }
 
     public void PauseGame()
