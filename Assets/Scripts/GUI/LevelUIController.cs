@@ -12,6 +12,7 @@ public class LevelUIController : MonoBehaviour
     public GameObject beeImagePreFab;
     public Transform beeContainer;
     public GameObject pauseMenu;
+    public GameObject RespawnButton;
 
     private List<GameObject> beeImages = new List<GameObject>();
     private int score;
@@ -57,6 +58,23 @@ public class LevelUIController : MonoBehaviour
             Time.timeScale = 1;
             isPaused = false;
             pauseMenu.SetActive(false);
+        }
+    }
+
+    public void ResumeGame()
+    {
+        RespawnButton.SetActive(false);
+        Time.timeScale = 1;
+        isPaused = false;
+    }
+
+    public void BeeDiedPause()
+    {
+        if (!isPaused)
+        {
+            Time.timeScale = 0;
+            isPaused = true;
+            RespawnButton.SetActive(true);
         }
     }
 

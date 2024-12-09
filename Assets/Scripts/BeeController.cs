@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BeeController : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class BeeController : MonoBehaviour
 
     private Rigidbody2D rb;  // Rigidbody for movement handling
     private bool isDead = false;  // Flag to track if the bee is dead
+
 
     void Start()
     {
@@ -45,6 +47,7 @@ public class BeeController : MonoBehaviour
         {
             Debug.LogError("BalloonSpawner not found in the scene. Please ensure there is one.");
         }
+
     }
 
     void Update()
@@ -68,17 +71,23 @@ public class BeeController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Wall"))
+        if (isDead)
+        {
+            return;
+        }
+        else if (collision.collider.CompareTag("Wall"))
         {
             rb.velocity = Vector2.zero;  // Stop movement when hitting a wall
             transform.position = lastValidPosition;  // Revert to last valid position
         }
         else if (collision.collider.CompareTag("RedZone"))
         {
+            Debug.Log("Bee entered the Red Zone! Losing 1 life.");
             DecreaseLivesAndRespawn();  // Handle collision with the RedZone
         }
         else if (collision.collider.CompareTag("Bomb"))
         {
+            Debug.Log("Bee Hit a Bomb! Losing 1 life.");
             DecreaseLivesAndRespawn();  // Handle collision with the Bomb
 
             // Destroy the Bomb
@@ -114,6 +123,7 @@ public class BeeController : MonoBehaviour
     public void DecreaseLivesAndRespawn()
     {
         currentLives--;
+        gameManager.DecreaseLives();
         if (currentLives <= 0)
         {
             beeAnimator.SetBool("IsMoving", false);  // Stop movement animation
@@ -139,9 +149,17 @@ public class BeeController : MonoBehaviour
         isDead = true;  // Stop movement while dead
         beeAnimator.SetTrigger("Die");  // Trigger death animation
         yield return new WaitForSeconds(1f);  // Wait for death animation duration
+
         transform.position = initialPosition;  // Respawn the bee
         rb.velocity = Vector2.zero;  // Reset velocity after respawn
-        isDead = false;  // Allow movement again
+
+        PauseGameWithTextBox();  // Pause the game and display the text box
+        isDead = false;  // Allow the bee to move again
+    }
+
+    private void PauseGameWithTextBox()
+    {
+        gameManager.UIController.BeeDiedPause();
     }
 
     private void GameOver()
