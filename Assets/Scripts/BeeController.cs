@@ -77,6 +77,13 @@ public class BeeController : MonoBehaviour
         {
             DecreaseLivesAndRespawn();  // Handle collision with the RedZone
         }
+        else if (collision.collider.CompareTag("Bomb"))
+        {
+            DecreaseLivesAndRespawn();  // Handle collision with the Bomb
+
+            // Destroy the Bomb
+            Destroy(collision.gameObject);
+        }
         else if (collision.collider.CompareTag("Balloon"))
         {
             // Add points to the GameManager when the balloon is popped
