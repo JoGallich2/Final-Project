@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public int totalLives = 3;  // Set initial lives here
     public int currentLives;
     public Scene currentLevel;
-    public int totalLevels = 3;
+    public int totalLevels = 4;
 
     [Header("Score Settings")]
     public int score = 0;  // Current score
