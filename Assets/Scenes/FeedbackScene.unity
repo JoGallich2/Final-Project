@@ -835,14 +835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Player ID: 8b357e15-64d4-4f63-8c43-f148d4648c9a
-
-    Start Time: 2024-12-09
-    16:48:46
-
-    Duration: 4.34 seconds
-
-    Score: 0'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
