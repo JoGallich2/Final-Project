@@ -22,6 +22,7 @@ public class BeeController : MonoBehaviour
 
     private Rigidbody2D rb;  // Rigidbody for movement handling
     private bool isDead = false;  // Flag to track if the bee is dead
+    private bool isFirstSpawn = true;  // Flag to track if this is the first spawn
 
 
     void Start()
@@ -46,6 +47,12 @@ public class BeeController : MonoBehaviour
         if (balloonSpawner == null)
         {
             Debug.LogError("BalloonSpawner not found in the scene. Please ensure there is one.");
+        }
+        // Trigger the respawn logic on the first spawn
+        if (isFirstSpawn)
+        {
+            StartCoroutine(RespawnDelay());
+            isFirstSpawn = false;  // Mark the first spawn as complete
         }
 
     }
@@ -147,7 +154,7 @@ public class BeeController : MonoBehaviour
     private IEnumerator RespawnDelay()
     {
         isDead = true;  // Stop movement while dead
-        beeAnimator.SetTrigger("Die");  // Trigger death animation
+        if (!isFirstSpawn) beeAnimator.SetTrigger("Die");  // Only trigger animation for subsequent spawns
         yield return new WaitForSeconds(1f);  // Wait for death animation duration
 
         transform.position = initialPosition;  // Respawn the bee
