@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Score Settings")]
     public int score = 0;  // Current score
+    public float startTime;
 
     public LevelUIController UIController;
 
@@ -27,6 +28,36 @@ public class GameManager : MonoBehaviour
         currentLives = totalLives;
         UIController.SetLives(currentLives);
         UIController.SetLevel(currentLevel.name);
+
+        // Store the starting time of the game
+        startTime = Time.time;
+
+        // Generate a unique Player ID if not already set
+        if (!PlayerPrefs.HasKey("PlayerID"))
+        {
+            PlayerPrefs.SetString("PlayerID", System.Guid.NewGuid().ToString());
+        }
+        if (currentLevel.buildIndex == 1 || currentLevel.buildIndex == 0)
+        {
+            score = 0;
+            PlayerPrefs.SetInt("Score", 0);
+        }
+        else
+        {
+            // Retrieve score from previous levels
+            if (PlayerPrefs.HasKey("Score"))
+            {
+                score = PlayerPrefs.GetInt("Score");
+            }
+            else
+            {
+                score = 0;
+            }
+        }
+        UIController.UpdateScore(score);
+
+        // Store the time of day the game started
+        PlayerPrefs.SetString("StartTime", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
     }
 
     private void Update()
@@ -51,12 +82,15 @@ public class GameManager : MonoBehaviour
         currentLevel = SceneManager.GetActiveScene();
         if (currentLevel.buildIndex < totalLevels)
         {
+            // Save the current score to PlayerPrefs before loading the next level
+            PlayerPrefs.SetInt("Score", score);
+
             UIController.SetLevel(currentLevel.name);
             SceneManager.LoadScene(currentLevel.buildIndex + 1);
         }
         else
         {
-            SceneManager.LoadScene("End"); // Load the End screen after completing all levels
+            EndGame();
         }
     }
 
@@ -68,7 +102,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over! You lost all your lives.");
-        SceneManager.LoadScene("End"); // Load the End screen after losing all lives
+        EndGame();
     }
 
     public void DecreaseLives()
@@ -106,5 +140,18 @@ public class GameManager : MonoBehaviour
     {
         balloonCount--;
         Debug.Log(balloonCount);
+    }
+    private void EndGame()
+    {
+        // Calculate and save duration
+        float duration = Time.time - startTime;
+        PlayerPrefs.SetFloat("Duration", duration);
+
+        // Save the final score and set score back to 0
+        PlayerPrefs.SetInt("FinalScore", score);
+        PlayerPrefs.SetInt("Score", 0);
+
+        // Load the feedback scene or end screen
+        SceneManager.LoadScene("FeedbackScene");
     }
 }

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 2.unity
     guid: 75a9f4faf8a70ab43a8b2bcbc111d923
+  - enabled: 1
+    path: Assets/Scenes/FeedbackScene.unity
+    guid: c41c200c473b50745ad9a5373b122dac
   m_configObjects: {}
