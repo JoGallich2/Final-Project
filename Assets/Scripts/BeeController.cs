@@ -8,6 +8,8 @@ public class BeeController : MonoBehaviour
     public Camera mainCamera;  // Reference to the main Camera
     public Animator beeAnimator;  // Animator to control the bee's animations
     private AudioController audioController;
+    public AudioClip deathSound;
+    public AudioClip explosion;
 
     [Header("Dynamic")]
     public Vector3 lastValidPosition;  // Position to revert to when colliding with walls
@@ -99,6 +101,10 @@ public class BeeController : MonoBehaviour
 
             // Destroy the Bomb
             Destroy(collision.gameObject);
+
+            audioController.BombSound(explosion);
+
+
         }
         else if (collision.collider.CompareTag("Balloon"))
         {
@@ -144,6 +150,7 @@ public class BeeController : MonoBehaviour
     {
         currentLives--;
         gameManager.DecreaseLives();
+        audioController.DeathSound(deathSound);
         if (currentLives <= 0)
         {
             beeAnimator.SetBool("IsMoving", false);  // Stop movement animation

@@ -18,7 +18,7 @@ public class AudioController : MonoBehaviour
     {
         if (clip != null)
         {
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip, 2f);
         }
         else
         {
@@ -32,6 +32,7 @@ public class AudioController : MonoBehaviour
         {
             audioSource.clip = clip;
             audioSource.loop = loop;
+            audioSource.volume = 0.3f;
             audioSource.Play();
         }
         else
@@ -43,5 +44,29 @@ public class AudioController : MonoBehaviour
     public void StopBackgroundMusic()
     {
         audioSource.Stop();
+    }
+
+    public void DeathSound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("AudioClip is missing! Cannot play sound.");
+        }
+    }
+
+    public void BombSound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("AudioClip is missing! Cannot play sound.");
+        }
     }
 }

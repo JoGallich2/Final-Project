@@ -165,9 +165,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   beeAnimator: {fileID: 95333843763016992}
+  deathSound: {fileID: 8300000, guid: f25f8e854f2daff40a672eac5170ed6e, type: 3}
+  explosion: {fileID: 8300000, guid: 5d190812de382a94ebfdd439e51efdd3, type: 3}
   lastValidPosition: {x: 0, y: 0, z: 0}
   initialPosition: {x: 0, y: 0, z: 0}
-  currentLives: 0
+  currentLives: 3
   totalLives: 3
   followSpeed: 13
   points: 10
