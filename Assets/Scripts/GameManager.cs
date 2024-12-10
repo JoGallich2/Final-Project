@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         currentLevel = SceneManager.GetActiveScene();
-        if (currentLevel.buildIndex < totalLevels)
+        if (currentLevel.buildIndex < 3)
         {
             // Save the current score to PlayerPrefs before loading the next level
             PlayerPrefs.SetInt("Score", score);
