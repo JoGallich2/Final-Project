@@ -11,18 +11,24 @@ public class GameManager : MonoBehaviour
     public int currentLives;
     public Scene currentLevel;
     public int totalLevels = 4;
+    public AudioClip background;
 
     [Header("Score Settings")]
     public int score = 0;  // Current score
     public float startTime;
 
     public LevelUIController UIController;
+    private AudioController audioController;
 
     private int balloonCount;
 
 
     void Start()
     {
+        //start abckground music
+        audioController = FindObjectOfType<AudioController>();
+        audioController.PlayBackgroundMusic(background);
+
         currentLevel = SceneManager.GetActiveScene();
 
         currentLives = totalLives;

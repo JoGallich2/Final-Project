@@ -7,6 +7,7 @@ public class BeeController : MonoBehaviour
     [Header("Inscribed")]
     public Camera mainCamera;  // Reference to the main Camera
     public Animator beeAnimator;  // Animator to control the bee's animations
+    private AudioController audioController;
 
     [Header("Dynamic")]
     public Vector3 lastValidPosition;  // Position to revert to when colliding with walls
@@ -23,8 +24,6 @@ public class BeeController : MonoBehaviour
     private Rigidbody2D rb;  // Rigidbody for movement handling
     private bool isDead = false;  // Flag to track if the bee is dead
     private bool isFirstSpawn = true;  // Flag to track if this is the first spawn
-
-
     void Start()
     {
         // Get necessary components and initialize variables
@@ -36,6 +35,7 @@ public class BeeController : MonoBehaviour
         rb.gravityScale = 0;
         initialPosition = transform.position;
         currentLives = totalLives;
+        audioController = FindObjectOfType<AudioController>();
 
         // Get the GameManager reference (ensure a GameManager exists in the scene)
         gameManager = FindObjectOfType<GameManager>();
@@ -102,11 +102,24 @@ public class BeeController : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Balloon"))
         {
+
             // Add points to the GameManager when the balloon is popped
             if (gameManager != null)
             {
                 gameManager.AddPoints(points);  // Add points to the game
                 balloonSpawner.StopBalloonSpawning();
+            }
+
+            //play sound effect
+            AudioClip balloonPopClip = collision.collider.GetComponent<Balloon>().popSound;
+
+            if (balloonPopClip != null)
+            {
+                audioController.PopSound(balloonPopClip);
+            }
+            else
+            {
+                Debug.LogWarning("No AudioClip found on the balloon!");
             }
 
             // Destroy the balloon
@@ -154,8 +167,10 @@ public class BeeController : MonoBehaviour
     private IEnumerator RespawnDelay()
     {
         isDead = true;  // Stop movement while dead
-        if (!isFirstSpawn) beeAnimator.SetTrigger("Die");  // Only trigger animation for subsequent spawns
-        yield return new WaitForSeconds(1f);  // Wait for death animation duration
+        if (!isFirstSpawn) {
+            beeAnimator.SetTrigger("Die");  // Only trigger animation for subsequent spawns
+            yield return new WaitForSeconds(1f);   // Wait for death animation duration
+        };
 
         transform.position = initialPosition;  // Respawn the bee
         rb.velocity = Vector2.zero;  // Reset velocity after respawn

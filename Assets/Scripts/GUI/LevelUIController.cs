@@ -84,13 +84,4 @@ public class LevelUIController : MonoBehaviour
         SceneManager.LoadScene("Start");
     }
 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PauseGame();
-        }
-    }
-
 }
